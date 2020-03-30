@@ -38,7 +38,7 @@ int I2C_Driver::write_buffer_i2c(uint8_t slave_addr, uint8_t reg, uint8_t data) 
     msgset[0].nmsgs = 1;
 
     if (ioctl(fd, I2C_RDWR, &msgset) < 0) {
-        printf("Can't write in i2c_device register\n");
+        printf("Can't WRITE in i2c_dev's register\n");
         return -1;
     }
 
@@ -79,7 +79,7 @@ int I2C_Driver::read_buffer_i2c(uint8_t slave_addr, uint8_t reg, int read_len, u
     data.nmsgs = 2;
 
     if (ioctl(fd, I2C_RDWR, &data) < 0) {
-        printf("Can't send data!\n");
+        printf("Can't READ data from i2c_dev's register!\n");
         return -1;
     }
     return 0;

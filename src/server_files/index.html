@@ -5,6 +5,7 @@
     <script src='lib/jquery.min.js'></script>
     <script src='app.js'></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <link rel="stylesheet" type="text/css" href="app.css" />
 </head>
 <body>
 <h2>Charts with current values</h2>
@@ -12,36 +13,24 @@
     <div class="container">
         <div class="row">
             <div class="col-1-1">
-                <div style='margin: 0 50px;height:200px'>
-                    <canvas id="myChartAccel" role="img"></canvas>
-                </div>
+                <canvas id="myChartAccel" role="img"></canvas>
             </div>
             <div class="col-1-2">
-                <div style='margin: 0 50px;height:200px'>
-                    <canvas id="myChartGyro" role="img"></canvas>
-                </div>
+                <canvas id="myChartGyro" role="img"></canvas>
             </div>
         </div>
         <div class="row">
             <div class="col-2-1">
-                <div style='margin: 0 50px;height:200px'>
-                    <canvas id="myChartTemperature" role="img"></canvas>
-                </div>
+                <canvas id="myChartTemperature" role="img"></canvas>
             </div>
             <div class="col-2-2">
-                <div style='margin: 0 50px;height:200px'>
-                    <canvas id="myChartPressure" role="img"></canvas>
-                </div>
+                <canvas id="myChartPressure" role="img"></canvas>
             </div>
             <div class="col-2-3">
-                <div style='margin: 0 50px;height:200px'>
-                    <canvas id="myChartHumidity" role="img"></canvas>
-                </div>
+                <canvas id="myChartHumidity" role="img"></canvas>
             </div>
             <div class="col-2-3">
-                <div style='margin: 0 50px;height:200px'>
-                    <canvas id="myChartAltitude" role="img"></canvas>
-                </div>
+                <canvas id="myChartAltitude" role="img"></canvas>
             </div>
         </div>
     </div>
@@ -93,6 +82,7 @@
         data: {
             labels: ["0s", "1s", "2s", "3s", "4s", "5s", "6s", "7s", "9s", "10s", "11s", "12s", "13s", "14s"],
             datasets: [{
+                fill: false,
                 lineTension: 0,
                 label: "Pressure",
                 data: dataPressure,
@@ -119,6 +109,7 @@
         data: {
             labels: ["0s", "1s", "2s", "3s", "4s", "5s", "6s", "7s", "9s", "10s", "11s", "12s", "13s", "14s"],
             datasets: [{
+                fill: false,
                 lineTension: 0,
                 label: "Humidity",
                 data: dataHumidity,
@@ -145,6 +136,7 @@
         data: {
             labels: ["0s", "1s", "2s", "3s", "4s", "5s", "6s", "7s", "9s", "10s", "11s", "12s", "13s", "14s"],
             datasets: [{
+                fill: false,
                 lineTension: 0,
                 label: "Altitude",
                 data: dataAltitude,
@@ -171,7 +163,7 @@
     const chartAccel = new Chart(ctxAccel, {
         type: 'line',
         data: {
-            labels: ["0s", "1s", "2s", "3s", "4s", "5s", "6s", "7s", "9s", "10s", "11s", "12s", "13s", "14s", "15s", "16s", "17s", "18s", "19s"],
+            labels: ["0s", "1s", "2s", "3s", "4s", "5s", "6s", "7s", "9s", "10s", "11s", "12s", "13s", "14s", "15s", "16s", "17s", "18s"],
             datasets: [{
                 fill: false,
                 lineTension: 0,
@@ -206,14 +198,14 @@
 </script>
 
 <script>
-    const ctxGyro = document.getElementById('myChartAccel').getContext('2d');
+    const ctxGyro = document.getElementById('myChartGyro').getContext('2d');
     const dataGyroX = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     const dataGyroY = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     const dataGyroZ = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     const chartGyro = new Chart(ctxGyro, {
         type: 'line',
         data: {
-            labels: ["0s", "1s", "2s", "3s", "4s", "5s", "6s", "7s", "9s", "10s", "11s", "12s", "13s", "14s", "15s", "16s", "17s", "18s", "19s"],
+            labels: ["0s", "1s", "2s", "3s", "4s", "5s", "6s", "7s", "9s", "10s", "11s", "12s", "13s", "14s", "15s", "16s", "17s", "18s"],
             datasets: [{
                 fill: false,
                 lineTension: 0,

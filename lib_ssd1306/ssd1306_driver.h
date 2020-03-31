@@ -277,6 +277,8 @@ private:
 
 public:
     SSD1306_Drive(i2c_init_func_def, i2c_read_func_def, i2c_write_func_def);
+    void ssd1306_basic_init();
+
     void ssd1306_begin(unsigned int switchvcc, unsigned int i2caddr); //switchvcc should be SSD1306_SWITCHCAPVCC
     void ssd1306_command(unsigned int c);
 

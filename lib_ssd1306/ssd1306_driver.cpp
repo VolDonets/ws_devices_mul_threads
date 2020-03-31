@@ -14,6 +14,13 @@ SSD1306_Drive::SSD1306_Drive(i2c_init_func_def i2c_init, i2c_read_func_def i2c_r
     this->cursor_y = 0;
 }
 
+void SSD1306_Drive::ssd1306_basic_init() {
+    ssd1306_begin(SSD1306_SWITCHCAPVCC, SSD1306_I2C_ADDRESS);
+    ssd1306_display(); //Adafruit logo is visible
+    ssd1306_clearDisplay();
+    sleep(2);
+}
+
 // the most basic function, set a single pixel
 void SSD1306_Drive::ssd1306_drawPixel(int x, int y, unsigned int color)
 {
@@ -426,7 +433,7 @@ void SSD1306_Drive::ssd1306_drawFastVLineInternal(int x, int __y, int __h, unsig
         }
         else {
             // store a local value to work with
-            register unsigned int val = (color == WHITE) ? 255 : 0;
+            unsigned int val = (color == WHITE) ? 255 : 0;
 
             do {
                 // write our value in

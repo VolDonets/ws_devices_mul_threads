@@ -4,7 +4,8 @@
 
 #include "WebServer.h"
 
-MyHandler::MyHandler(MyServer* server) : _server(server) {
+MyHandler::MyHandler(MyServer* server) : _server(server){
+    _count_connections = 0;
 }
 
 void MyHandler::onConnect(WebSocket* connection) {
@@ -15,6 +16,7 @@ void MyHandler::onConnect(WebSocket* connection) {
          << " : " << formatAddress(connection->getRemoteAddress())
          << endl;
     cout << "Credentials: " << *(connection->credentials()) << endl;
+    _count_connections++;
 }
 
 void MyHandler::onData(WebSocket* connection, const char* data) {
@@ -26,6 +28,7 @@ void MyHandler::onDisconnect(WebSocket* connection) {
     cout << "Disconnected: " << connection->getRequestUri()
          << " : " << formatAddress(connection->getRemoteAddress())
          << endl;
+    _count_connections--;
 }
 
 void MyHandler::sendValuesJSON(std::string values) {
@@ -33,4 +36,8 @@ void MyHandler::sendValuesJSON(std::string values) {
     for (auto c : _connections) {
         c->send(values);
     }
+}
+
+int MyHandler::getCountConnections() {
+    return _count_connections;
 }

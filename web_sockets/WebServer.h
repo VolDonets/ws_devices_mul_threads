@@ -42,7 +42,6 @@ private:
 
 class MyHandler : public WebSocket::Handler {
 public:
-
     explicit MyHandler(MyServer* server);
 
     virtual void onConnect(WebSocket* connection);
@@ -50,12 +49,14 @@ public:
     virtual void onDisconnect(WebSocket* connection);
 
     void sendValuesJSON(std::string values);
+    int getCountConnections();
 
 
 private:
-    set<WebSocket*> _connections;
-    Server* _server;
-    std::mutex _mutex;
+    int _count_connections;         //value for counting connections, when smo connects - it increments, when smo disconnects - it decrement
+    set<WebSocket*> _connections;   //set of WebSocket connections
+    Server* _server;                //pointer on object of this server
+    std::mutex _mutex;              //still useless variable
 };
 
 struct MyAuthHandler : PageHandler {

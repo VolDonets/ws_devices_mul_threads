@@ -31,7 +31,6 @@ void ProcessingInter::start() {
 
         if (connections > 0) {
             this->processing_data_to_websocket();
-            std::cout << "Data sent to clients" << endl;
         } else {
             read_temperature();
         }
@@ -97,7 +96,8 @@ std::string ProcessingInter::to_json_process() {
 }
 
 
-/*this function print on display current count of connections and current count of */
+/*this function print on display current count of connections and current count of
+* ~>private function*/
 void ProcessingInter::show_on_display() {
     char printed_str[80];
     sprintf(printed_str, "Current tmp: %0.2f*C\nConnections: %d", temperature, connections);
@@ -106,6 +106,9 @@ void ProcessingInter::show_on_display() {
     ssd1306_drive->ssd1306_display();
 }
 
+/*this function is used for updating "temperature" value of class ProcessingInter,
+ * which used for showing on connected display
+ * ~>private function*/
 void ProcessingInter::read_temperature() {
     BMP280Data *bme280_data = bme280_drive->getBMP280Data();
     temperature = bme280_data->getTemperature();

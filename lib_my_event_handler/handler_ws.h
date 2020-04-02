@@ -12,7 +12,7 @@ public:
     /*function for handling events, it get a param Event
      * and to do smt when event happens
      * ~> public function*/
-    void handleEventWS(EventWS&);
+    virtual void handleEventWS(EventWS&) {};
 
 protected:
     HandlerWS() {}

@@ -2,7 +2,7 @@
 // Created by vovan on 30.03.2020.
 //
 
-#include "processing_with_interaptions.h"
+#include "processing_with_interrupt.h"
 
 /*Here constructor is a constructor of a class Processing
  * Here we create some objects for I2Driver and for MPU6050 Driver

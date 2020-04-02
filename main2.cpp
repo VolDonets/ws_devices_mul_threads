@@ -4,7 +4,7 @@
 
 #include <iostream>
 
-#include "processing_with_interaptions.h"
+#include "processing_with_interrupt.h"
 #include "lib_i2c/i2c_driver.h"
 
 I2C_Driver *i2c_driver = new I2C_Driver(I2C_ADAPTER_1);

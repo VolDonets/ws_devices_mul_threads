@@ -6,7 +6,7 @@
 #define WS_DEVICES_2_EVENT_WS_H
 
 #define EVENT_HAVE_CLIENT           0
-#define EVENT_HAVE_NO_CLIENT        1
+#define EVENT_HAVE_LEAVE_CLIENT     1
 #define EVENT_DATA_IS_PREPARED      2
 
 /*These is a class EventWS, which used for contains an event state*/

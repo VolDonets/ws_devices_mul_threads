@@ -5,7 +5,10 @@
 #include "WebServer.h"
 
 MyHandler::MyHandler(MyServer* server) : _server(server){
-    _count_connections = 0;
+    //_count_connections = 0;
+    this->_delegate = DelegateWS::getInstance();
+    this->_eventNewClient = new EventWS(EVENT_HAVE_CLIENT);
+    this->_eventLoseClient = new EventWS(EVENT_HAVE_LEAVE_CLIENT);
 }
 
 void MyHandler::onConnect(WebSocket* connection) {
@@ -16,7 +19,8 @@ void MyHandler::onConnect(WebSocket* connection) {
          << " : " << formatAddress(connection->getRemoteAddress())
          << endl;
     cout << "Credentials: " << *(connection->credentials()) << endl;
-    _count_connections++;
+    _delegate->doEvent(*_eventNewClient);
+    //_count_connections++;
 }
 
 void MyHandler::onData(WebSocket* connection, const char* data) {
@@ -28,7 +32,8 @@ void MyHandler::onDisconnect(WebSocket* connection) {
     cout << "Disconnected: " << connection->getRequestUri()
          << " : " << formatAddress(connection->getRemoteAddress())
          << endl;
-    _count_connections--;
+    //_count_connections--;
+    _delegate->doEvent(*_eventLoseClient);
 }
 
 void MyHandler::sendValuesJSON(std::string values) {
@@ -38,6 +43,6 @@ void MyHandler::sendValuesJSON(std::string values) {
     }
 }
 
-int MyHandler::getCountConnections() {
+/*int MyHandler::getCountConnections() {
     return _count_connections;
-}
+}*/

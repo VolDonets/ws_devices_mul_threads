@@ -6,7 +6,7 @@
 
 DelegateWS* DelegateWS::p_instance = 0;
 
-static DelegateWS* DelegateWS::getInstance() {
+DelegateWS* DelegateWS::getInstance() {
     if (!p_instance)
         p_instance = new DelegateWS();
     return p_instance;
@@ -14,7 +14,7 @@ static DelegateWS* DelegateWS::getInstance() {
 
 void DelegateWS::doEvent(EventWS& event) {
     for (HandlerWS* handlerWs: m_handlers)
-        handlerWs->handleEventWS(event)
+        handlerWs->handleEventWS(event);
 }
 
 void DelegateWS::addHandler(HandlerWS& handler) {

@@ -11,6 +11,8 @@
 #include "seasocks/WebSocket.h"
 #include "seasocks/util/Json.h"
 #include "seasocks/PageHandler.h"
+#include "lib_my_event_handler/event_ws.h"
+#include "lib_my_event_handler/delegate_ws.h"
 
 #include <iostream>
 #include <cstdio>
@@ -49,14 +51,17 @@ public:
     virtual void onDisconnect(WebSocket* connection);
 
     void sendValuesJSON(std::string values);
-    int getCountConnections();
+    //int getCountConnections();
 
 
 private:
-    int _count_connections;         //value for counting connections, when smo connects - it increments, when smo disconnects - it decrement
+    //int _count_connections;         //value for counting connections, when smo connects - it increments, when smo disconnects - it decrement
     set<WebSocket*> _connections;   //set of WebSocket connections
     Server* _server;                //pointer on object of this server
     std::mutex _mutex;              //still useless variable
+    DelegateWS* _delegate;          //instance of event delegator
+    EventWS* _eventNewClient;       //instances of possible event - adding a new client
+    EventWS* _eventLoseClient;      //instances of possible event - losing an old client
 };
 
 struct MyAuthHandler : PageHandler {

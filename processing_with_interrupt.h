@@ -9,11 +9,15 @@
 #include "web_sockets/WebServer.h"
 #include "lib_bme280/bme280.h"
 #include "lib_ssd1306/ssd1306_driver.h"
+#include "web_sockets/lib_my_event_handler/handler_ws.h"
+#include "web_sockets/lib_my_event_handler/event_ws.h"
+#include "web_sockets/lib_my_event_handler/delegate_ws.h"
 
-class ProcessingInter {
+class ProcessingInter: public HandlerWS{
 public:
     ProcessingInter(i2c_init_func_def, i2c_read_func_def, i2c_write_func_def, i2c_read_func_def, i2c_write_func_def, i2c_read_func_def, i2c_write_func_def);
     void start();
+    void handleEventWS(EventWS& event);
 
 private:
     MPU6050_Drive *mpu6050_drive;

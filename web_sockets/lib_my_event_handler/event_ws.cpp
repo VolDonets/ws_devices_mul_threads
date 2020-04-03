@@ -8,6 +8,6 @@ EventWS::EventWS(int idEvent) {
     this->idEvent = idEvent;
 }
 
-int getEventID() {
+int EventWS::getEventID() {
     return this->idEvent;
 }

@@ -15,7 +15,8 @@
 class DelegateWS {
 private:
     static DelegateWS* p_instance;          //private static field for the singular link on the DelegateWS object
-    std::list<HandlerWS*> m_handlers;       //private field with link on list of connected handlers
+    std::vector<HandlerWS*> m_handlers;       //private field with link on list of connected handlers
+    //std::list<HandlerWS*> m_handlers;       //private field with link on list of connected handlers
 
     DelegateWS() {}                         //private constructor
     DelegateWS(const DelegateWS&);

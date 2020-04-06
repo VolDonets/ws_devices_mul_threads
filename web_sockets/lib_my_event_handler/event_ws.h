@@ -9,6 +9,9 @@
 #define EVENT_HAVE_LEAVE_CLIENT     1
 #define EVENT_DATA_IS_PREPARED      2
 
+#define EVENT_GIVE_MQTT_STATUS      3
+#define EVENT_MQTT_CHANGE_STATUS    4
+
 /*These is a class EventWS, which used for contains an event state*/
 class EventWS {
 private:

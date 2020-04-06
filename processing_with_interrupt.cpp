@@ -23,17 +23,16 @@ void ProcessingInter::handleEventWS(EventWS &event) {
  * Here we create some objects for I2Driver and for MPU6050 Driver
  * for initialization and reading values from devices
  * ~>public constructor*/
-ProcessingInter::ProcessingInter(i2c_init_func_def i2c_init, i2c_read_func_def i2c_read_mpu, i2c_write_func_def i2c_write_mpu,
-                       i2c_read_func_def i2c_read_bme, i2c_write_func_def i2c_write_bme, i2c_read_func_def i2c_read_ssd, i2c_write_func_def i2c_write_ssd) {
+ProcessingInter::ProcessingInter(MyI2CDriveMethods& driveMethods) {
     temperature = 0.0;
     connections = 0;
-    mpu6050_drive = new MPU6050_Drive(i2c_init, i2c_read_mpu, i2c_write_mpu);
+    mpu6050_drive = new MPU6050_Drive(driveMethods.i2c_init, driveMethods.i2c_read_mpu, driveMethods.i2c_write_mpu);
     mpu6050_drive->init_mpu6050();
 
-    bme280_drive = new BME280("dev/i2c-1/", BME280_ADDRESS, i2c_init, i2c_read_bme, i2c_write_bme);
+    bme280_drive = new BME280("dev/i2c-1/", BME280_ADDRESS, driveMethods.i2c_init, driveMethods.i2c_read_bme, driveMethods.i2c_write_bme);
     bme280_drive->defaultInit();
 
-    ssd1306_drive = new SSD1306_Drive(i2c_init, i2c_read_ssd, i2c_write_ssd);
+    ssd1306_drive = new SSD1306_Drive(driveMethods.i2c_init, driveMethods.i2c_read_ssd, driveMethods.i2c_write_ssd);
     ssd1306_drive->ssd1306_basic_init();
 }
 
@@ -45,14 +44,20 @@ void ProcessingInter::start() {
 
     init_server();      //it starts web_socket server
     sleep(1);
+    bme280data = bme280_drive->getBMP280Data();
+    mpu6050Data = mpu6050_drive->getActualData();
+    temperature = bme280data->getTemperature();
     while (1) {
         if (connections > 0) {
-            this->processing_data_to_websocket();
-        } else {
-            read_temperature();
+            std::string values = to_json_process();
+            this->processing_data_to_websocket(values);
         }
         show_on_display();
         sleep(1);
+
+        bme280data = bme280_drive->getBMP280Data();
+        mpu6050Data = mpu6050_drive->getActualData();
+        temperature = bme280data->getTemperature();
     }
 }
 
@@ -72,41 +77,23 @@ void ProcessingInter::init_server(){
 
 /**This function processes data from different devices and sends it to server
  * ~>private function*/
-void ProcessingInter::processing_data_to_websocket() {
-    std:string values = to_json_process();
+void ProcessingInter::processing_data_to_websocket(std::string values) {
     handler->sendValuesJSON(values);
 }
 
 /**this function get data from connected devices and convert it to JSON for sending this to server and clients*
  * ~>private*/
 std::string ProcessingInter::to_json_process() {
-    float accelX, accelY, accelZ, gyroX, gyroY, gyroZ,
-            temperature, pressure, humidity, altitude;
-    accelX = mpu6050_drive->get_accel_X();
-    accelY = mpu6050_drive->get_accel_Y();
-    accelZ = mpu6050_drive->get_accel_Z();
-    gyroX = mpu6050_drive->get_gyro_X();
-    gyroY = mpu6050_drive->get_gyro_Y();
-    gyroZ = mpu6050_drive->get_gyro_Z();
-
-    BMP280Data *bme280_data = bme280_drive->getBMP280Data();
-    temperature = bme280_data->getTemperature();
-    pressure = bme280_data->getPressure();
-    humidity = bme280_data->getHumidity();
-    altitude = bme280_data->getAltitude();
-
-    this->temperature = temperature;
-
-    std::string result = "{\"accelX\": " + std::to_string(accelX)
-                         + ", \"accelY\": " + std::to_string(accelY)
-                         + ", \"accelZ\": " + std::to_string(accelZ)
-                         + ", \"gyroX\": " + std::to_string(gyroX)
-                         + ", \"gyroY\": " + std::to_string(gyroY)
-                         + ", \"gyroZ\": " + std::to_string(gyroZ)
-                         + ", \"temperature\": " + std::to_string(temperature)
-                         + ", \"pressure\": " + std::to_string(pressure)
-                         + ", \"humidity\": " + std::to_string(humidity)
-                         + ", \"altitude\": " + std::to_string(altitude)
+    std::string result = "{\"accelX\": " + std::to_string(mpu6050Data->accelX)
+                         + ", \"accelY\": " + std::to_string(mpu6050Data->accelY)
+                         + ", \"accelZ\": " + std::to_string(mpu6050Data->accelZ)
+                         + ", \"gyroX\": " + std::to_string(mpu6050Data->gyroX)
+                         + ", \"gyroY\": " + std::to_string(mpu6050Data->gyroY)
+                         + ", \"gyroZ\": " + std::to_string(mpu6050Data->gyroZ)
+                         + ", \"temperature\": " + std::to_string(bme280data->getTemperature())
+                         + ", \"pressure\": " + std::to_string(bme280data->getPressure())
+                         + ", \"humidity\": " + std::to_string(bme280data->getHumidity())
+                         + ", \"altitude\": " + std::to_string(bme280data->getAltitude())
                          + "}";
 
     return result;
@@ -127,6 +114,5 @@ void ProcessingInter::show_on_display() {
  * which used for showing on connected display
  * ~>private function*/
 void ProcessingInter::read_temperature() {
-    BMP280Data *bme280_data = bme280_drive->getBMP280Data();
-    temperature = bme280_data->getTemperature();
+    temperature = bme280data->getTemperature();
 }

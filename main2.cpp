@@ -26,8 +26,15 @@ int i2c_write_ssd(uint8_t reg, uint8_t data);
 
 //start point of working ws-server thread and thread for reading values from devices
 int main() {
-    ProcessingInter *processing = new ProcessingInter(i2c_init, i2c_read_mpu, i2c_write_mpu,
-                                            i2c_read_bme, i2c_write_bme, i2c_read_ssd, i2c_write_ssd);
+    MyI2CDriveMethods driveMethods;
+    driveMethods.i2c_init = i2c_init;
+    driveMethods.i2c_read_mpu = i2c_read_mpu;
+    driveMethods.i2c_write_mpu = i2c_write_mpu;
+    driveMethods.i2c_read_bme = i2c_read_bme;
+    driveMethods.i2c_write_bme = i2c_write_bme;
+    driveMethods.i2c_read_ssd = i2c_read_ssd;
+    driveMethods.i2c_write_ssd = i2c_write_ssd;
+    ProcessingInter *processing = new ProcessingInter(driveMethods);
     processing->start();
     return 0;
 }

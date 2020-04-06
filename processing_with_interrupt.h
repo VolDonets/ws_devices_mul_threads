@@ -13,9 +13,19 @@
 #include "web_sockets/lib_my_event_handler/event_ws.h"
 #include "web_sockets/lib_my_event_handler/delegate_ws.h"
 
+struct MyI2CDriveMethods {
+    i2c_init_func_def i2c_init;
+    i2c_read_func_def i2c_read_mpu;
+    i2c_write_func_def i2c_write_mpu;
+    i2c_read_func_def i2c_read_bme;
+    i2c_write_func_def i2c_write_bme;
+    i2c_read_func_def i2c_read_ssd;
+    i2c_write_func_def i2c_write_ssd;
+};
+
 class ProcessingInter: public HandlerWS{
 public:
-    ProcessingInter(i2c_init_func_def, i2c_read_func_def, i2c_write_func_def, i2c_read_func_def, i2c_write_func_def, i2c_read_func_def, i2c_write_func_def);
+    ProcessingInter(MyI2CDriveMethods&);
     void start();
     void handleEventWS(EventWS& event);
 
@@ -28,12 +38,15 @@ private:
     shared_ptr<MyServer> ws_server;
     shared_ptr<MyHandler> handler;
 
+    MPU6060Data *mpu6050Data;
+    BMP280Data *bme280data;
+
     float temperature;
     int connections;
 
 
     void init_server();
-    void processing_data_to_websocket();
+    void processing_data_to_websocket(std::string values);
     std::string to_json_process();
     void show_on_display();
     void read_temperature(); //not right function

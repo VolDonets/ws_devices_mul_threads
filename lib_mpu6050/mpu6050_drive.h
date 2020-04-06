@@ -32,13 +32,18 @@ typedef int (*i2c_write_func_def)(uint8_t reg, uint8_t data);
 typedef int (*i2c_read_func_def)(uint8_t reg, int read_len, uint8_t read_res[]);
 typedef int (*i2c_init_func_def)();
 
+struct MPU6060Data {
+    float accelX, accelY, accelZ;
+    float gyroX, gyroY, gyroZ;
+};
+
 class MPU6050_Drive {
 private:
     i2c_init_func_def i2c_init;
     i2c_read_func_def i2c_read;
     i2c_write_func_def i2c_write;
 
-    /*this function return value of accelerometer or gyroscope in grams or degrees
+    /**this function return value of accelerometer or gyroscope in grams or degrees
     *int reg - register for reading
     *float del_val - delimiter for getting values in grams or degrees*/
     float get_accel_gyro(int reg, float del_val);
@@ -47,14 +52,14 @@ private:
 public:
     MPU6050_Drive(i2c_init_func_def, i2c_read_func_def, i2c_write_func_def);
 
-    /*full activation of mpu6050 without file value for other app*/
+    /**full activation of mpu6050 without file value for other app*/
     /*PLEASE USE THIS ONE BEFORE YOU GET VALUES FROM MPU*/
     int init_mpu6050();
 
-    /*this function for testing work of mpu6050, it just print concrete value of parameters*/
+    /**this function for testing work of mpu6050, it just print concrete value of parameters*/
     void test_read_data_mpu6050();
 
-    /*next functions for getting acceleleromener's and gyro's parameters*/
+    /**next functions for getting acceleleromener's and gyro's parameters*/
     float get_accel_X();
     float get_accel_Y();
     float get_accel_Z();
@@ -62,7 +67,11 @@ public:
     float get_gyro_Y();
     float get_gyro_Z();
 
-    /*this function for fast read data from mpu6050 when smt happens
+    /**this function used for getting MPU6050Data
+     * MPU6050Data* - link to the struct of possible data*/
+    MPU6060Data* getActualData();
+
+    /**this function for fast read data from mpu6050 when smt happens
     *float values** - array of results of reading, where
 		[][0] - is value accel by X
 		[][1] - is value accel by Y
@@ -74,7 +83,7 @@ public:
     *int lenght - lenght of array values and count of readet data*/
     void get_array_AG_val(float *values[6], int length);
 
-    /*this function for convering into JSON format of data
+    /**this function for convering into JSON format of data
     *char json_arr** - array of results of converting
     *float values** - array of results of reading, where
 		[][0] - is value accel by X

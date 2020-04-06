@@ -2,10 +2,10 @@
 <project version="4">
   <component name="PublishConfigData">
     <serverData>
-      <paths name="pi@192.168.1.9 (f44a1733-625a-409e-affa-6319651907a2)">
+      <paths name="pi@192.168.1.9 (eb0030cc-d722-4d0f-a1f5-e18a35db93d9)">
         <serverdata>
           <mappings>
-            <mapping deploy="/tmp/tmp.pMO4wbY0Bv" local="$PROJECT_DIR$" web="/" />
+            <mapping deploy="/home/pi/big_progect_folder/ws_dev" local="$PROJECT_DIR$" web="/" />
           </mappings>
           <excludedPaths>
             <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-debug-pi@19216819" />

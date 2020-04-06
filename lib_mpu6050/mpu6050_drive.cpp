@@ -120,3 +120,16 @@ void MPU6050_Drive::to_JSON_array_AG_val(char *json_arr[], float *values[6], int
         json_arr[i] = json_str;
     }
 }
+
+/*this function used for getting MPU6050Data
+     * MPU6050Data& - link to the struct of possible data*/
+MPU6060Data* MPU6050_Drive::getActualData() {
+    MPU6060Data* data = new MPU6060Data;
+    data->accelX = get_accel_X();
+    data->accelY = get_accel_Y();
+    data->accelZ = get_accel_Z();
+    data->gyroX = get_gyro_X();
+    data->gyroY = get_gyro_Y();
+    data->gyroZ = get_gyro_Z();
+    return data;
+}

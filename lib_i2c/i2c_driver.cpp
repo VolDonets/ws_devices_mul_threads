@@ -4,8 +4,8 @@
 
 #include "i2c_driver.h"
 
-I2C_Driver::I2C_Driver(char *i2c_driver_id) {
-    this->i2c_driver_id = i2c_driver_id;
+I2C_Driver::I2C_Driver(const char *i2c_driver_id) {
+    this->i2c_driver_id = const_cast<char *>(i2c_driver_id);
     this->fd = -1;
 }
 

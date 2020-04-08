@@ -20,7 +20,7 @@ private:
     char *i2c_driver_id;    /*Address drive file in linux OS*/
 
 public:
-    I2C_Driver(char *i2c_driver_id);
+    I2C_Driver(const char *i2c_driver_id);
 
     /*universal function for writing in i2c connected device
     *unsig char slave_addr - device address on i2c bus

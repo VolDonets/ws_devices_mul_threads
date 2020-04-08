@@ -7,7 +7,7 @@
 #include "processing_with_interrupt.h"
 #include "lib_i2c/i2c_driver.h"
 
-I2C_Driver *i2c_driver = new I2C_Driver(I2C_ADAPTER_1);
+std::shared_ptr<I2C_Driver>i2c_driver = std::make_shared<I2C_Driver>(I2C_ADAPTER_1);
 
 //def function which is using in MPU6050_Drive, BME280, ...
 int i2c_init();
@@ -34,7 +34,7 @@ int main() {
     driveMethods.i2c_write_bme = i2c_write_bme;
     driveMethods.i2c_read_ssd = i2c_read_ssd;
     driveMethods.i2c_write_ssd = i2c_write_ssd;
-    ProcessingInter *processing = new ProcessingInter(driveMethods);
+    shared_ptr<ProcessingInter> processing = std::make_shared<ProcessingInter>(driveMethods);
     processing->start();
     return 0;
 }

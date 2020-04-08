@@ -12,6 +12,8 @@
 #include "web_sockets/lib_my_event_handler/handler_ws.h"
 #include "web_sockets/lib_my_event_handler/event_ws.h"
 #include "web_sockets/lib_my_event_handler/delegate_ws.h"
+#include "lib_mqtt_worker/my_mqtt_worker.h"
+#include "web_sockets/my_web_server_worker.h"
 
 struct MyI2CDriveMethods {
     i2c_init_func_def i2c_init;
@@ -30,26 +32,24 @@ public:
     void handleEventWS(EventWS& event);
 
 private:
-    MPU6050_Drive *mpu6050_drive;
-    BME280 *bme280_drive;
-    SSD1306_Drive *ssd1306_drive;
-    thread server_thread;
-    shared_ptr<PrintfLogger> logger;
-    shared_ptr<MyServer> ws_server;
-    shared_ptr<MyHandler> handler;
+    shared_ptr<MPU6050_Drive> mpu6050_drive;
+    shared_ptr<BME280> bme280_drive;
+    shared_ptr<SSD1306_Drive>ssd1306_drive;
+    shared_ptr<MyMQTTWorker> myMQTTWorker;
+    shared_ptr<MyWebServerWorker> myWebServerWorker;
 
-    MPU6060Data *mpu6050Data;
+    MPU6050Data *mpu6050Data;
     BMP280Data *bme280data;
 
     float temperature;
     int connections;
+    bool isEnabledMQTT, isWorkingMQTT;
 
 
-    void init_server();
-    void processing_data_to_websocket(std::string values);
+    void enable_MQTT_server();
+    void disable_MQTT_server();
     std::string to_json_process();
     void show_on_display();
-    void read_temperature(); //not right function
 };
 
 

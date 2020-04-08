@@ -14,29 +14,30 @@ MyHandler::MyHandler(MyServer* server) : _server(server){
 
 void MyHandler::onConnect(WebSocket* connection) {
 
-    cout << "onConnect getRequestUri: " << connection->getRequestUri() << endl;
+    //cout << "onConnect getRequestUri: " << connection->getRequestUri() << endl;
     _connections.insert(connection);
-    cout << "Connected: " << connection->getRequestUri()
+    /*cout << "Connected: " << connection->getRequestUri()
          << " : " << formatAddress(connection->getRemoteAddress())
          << endl;
-    cout << "Credentials: " << *(connection->credentials()) << endl;
+    cout << "Credentials: " << *(connection->credentials()) << endl;*/
     _delegate->doEvent(*_eventNewClient);
 }
 
 void MyHandler::onData(WebSocket* connection, const char* data) {
     cout << "onData: " << data << endl;
     if ( strcmp(data, "GIVE_MQTT_STATUS") == 0) {
-        cout << "wanna GET MQTT status" << endl;
-    } else if ( strcmp(data, "MQTT_CHANGE_STATUS")) {
-        cout << "wanna CHANGE MQTT status" << endl;
+        _delegate->doEvent(*_eventGetMQTT);
+    } else if (strcmp(data, "MQTT_CHANGE_STATUS") == 0) {
+        cout << "changing MQTT" << endl;
+        _delegate->doEvent(*_eventChangeMQTT);
     }
 }
 
 void MyHandler::onDisconnect(WebSocket* connection) {
     _connections.erase(connection);
-    cout << "Disconnected: " << connection->getRequestUri()
+    /*cout << "Disconnected: " << connection->getRequestUri()
          << " : " << formatAddress(connection->getRemoteAddress())
-         << endl;
+         << endl;*/
     _delegate->doEvent(*_eventLoseClient);
 }
 

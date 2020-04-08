@@ -60,10 +60,11 @@ private:
     Server* _server;                //pointer on object of this server
     std::mutex _mutex;              //still useless variable
     DelegateWS* _delegate;          //instance of event delegator
-    EventWS* _eventNewClient;       //instances of possible event - adding a new client
-    EventWS* _eventLoseClient;      //instances of possible event - losing an old client
+
     EventWS* _eventChangeMQTT;      //instances of possible event - event of enabling or disabling MQTT
     EventWS* _eventGetMQTT;         //instances of possible event - event of getting MQTT status
+    EventWS* _eventNewClient;       //instances of possible event - adding a new client
+    EventWS* _eventLoseClient;      //instances of possible event - losing an old client
 };
 
 struct MyAuthHandler : PageHandler {

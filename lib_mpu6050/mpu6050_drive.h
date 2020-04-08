@@ -32,7 +32,7 @@ typedef int (*i2c_write_func_def)(uint8_t reg, uint8_t data);
 typedef int (*i2c_read_func_def)(uint8_t reg, int read_len, uint8_t read_res[]);
 typedef int (*i2c_init_func_def)();
 
-struct MPU6060Data {
+struct MPU6050Data {
     float accelX, accelY, accelZ;
     float gyroX, gyroY, gyroZ;
 };
@@ -69,7 +69,7 @@ public:
 
     /**this function used for getting MPU6050Data
      * MPU6050Data* - link to the struct of possible data*/
-    MPU6060Data* getActualData();
+    MPU6050Data* getActualData();
 
     /**this function for fast read data from mpu6050 when smt happens
     *float values** - array of results of reading, where

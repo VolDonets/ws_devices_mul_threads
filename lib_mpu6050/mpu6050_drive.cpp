@@ -123,8 +123,8 @@ void MPU6050_Drive::to_JSON_array_AG_val(char *json_arr[], float *values[6], int
 
 /*this function used for getting MPU6050Data
      * MPU6050Data& - link to the struct of possible data*/
-MPU6060Data* MPU6050_Drive::getActualData() {
-    MPU6060Data* data = new MPU6060Data;
+MPU6050Data* MPU6050_Drive::getActualData() {
+    MPU6050Data* data = new MPU6050Data;
     data->accelX = get_accel_X();
     data->accelY = get_accel_Y();
     data->accelZ = get_accel_Z();

@@ -1,15 +1,17 @@
 var ws;
-let buttonStatusMQTT;
-let isEnabledMQTT = false;
+var buttonStatusMQTT;
+var isEnabledMQTT = false;
 
 $(function begin() {
     $('#id_form_button_enable_mqtt').click(function onClick(e) {
         if (isEnabledMQTT) {
-            buttonStatusMQTT.value = "DISABLE MQTT (actually ENABLED)"
+            buttonStatusMQTT.value = "ENABLE MQTT (actually DISABLED)";
             isEnabledMQTT = false;
+            ws.send("MQTT_CHANGE_STATUS");
         } else {
-            buttonStatusMQTT.value = "ENABLE MQTT (actually DISABLED)"
+            buttonStatusMQTT.value = "DISABLE MQTT (actually ENABLED)";
             isEnabledMQTT = true;
+            ws.send("MQTT_CHANGE_STATUS");
         }
     })
 
